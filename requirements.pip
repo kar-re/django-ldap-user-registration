@@ -1,5 +1,6 @@
 alabaster==0.7.11
 argh==0.26.2
+setuptools<46
 atomicwrites==1.1.5
 attrs==18.1.0
 Babel==2.6.0
@@ -26,8 +27,8 @@ pkginfo==1.4.2
 pluggy==0.6.0
 ply==3.11
 port-for==0.3.1
-psycopg2==2.7.5
-psycopg2-binary==2.7.5
+
+
 py==1.5.3
 pyasn1==0.4.3
 pyasn1-modules==0.2.2
@@ -38,7 +39,7 @@ pytest-django==3.3.2
 python-coveralls==2.9.1
 python-ldap==3.1.0
 pytz==2018.4
-PyYAML==3.13
+PyYAML
 requests==2.19.1
 requests-toolbelt==0.8.0
 setuptools-scm==3.1.0
