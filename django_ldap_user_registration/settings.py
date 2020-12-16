@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'cas.apps.CASConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,7 +44,10 @@ INSTALLED_APPS = [
     'crispy_forms',
     'bootstrap3',
     'captcha',
-    'django_countries'
+    'django_countries',
+
+    'django_saml2_auth'
+    
 ]
 
 MIDDLEWARE = [
@@ -54,7 +58,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'cas.middleware.CASMiddleware',
 ]
+
 
 ROOT_URLCONF = 'django_ldap_user_registration.urls'
 
@@ -74,6 +80,8 @@ TEMPLATES = [
         },
     },
 ]
+CAS_SERVER_URL = "https://idpv3.lu.se/idp/profile/cas/"
+
 
 WSGI_APPLICATION = 'django_ldap_user_registration.wsgi.application'
 
@@ -119,6 +127,32 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+SAML2_AUTH = {
+    # Metadata is required, choose either remote url or local file path
+    'METADATA_AUTO_CONF_URL': 'https://idpv4.lu.se/idp/shibboleth',
+    #'METADATA_LOCAL_FILE_PATH': '[The metadata configuration file path]',
+
+    # Optional settings below
+    'DEFAULT_NEXT_URL': '/user/saml',  # Custom target redirect URL after the user get logged in. Default to /admin if not set. This setting will be overwritten if you have parameter ?next= specificed in the login URL.
+    'CREATE_USER': 'TRUE', # Create a new Django user when a new user logs in. Defaults to True.
+    'NEW_USER_PROFILE': {
+        'USER_GROUPS': [],  # The default group name when a new user logs in
+        'ACTIVE_STATUS': True,  # The default active status for new users
+        'STAFF_STATUS': True,  # The staff status for new users
+        'SUPERUSER_STATUS': False,  # The superuser status for new users
+    },
+    'ATTRIBUTES_MAP': {  # Change Email/UserName/FirstName/LastName to corresponding SAML2 userprofile attributes.
+        'email': 'Email',
+        'username': 'UserName',
+        'first_name': 'FirstName',
+        'last_name': 'LastName',
+    },
+    #'ASSERTION_URL': 'https://mysite.com', # Custom URL to validate incoming SAML requests against
+    #'ENTITY_ID': 'https://canvas.education.lu.se/login/saml', # Populates the Issuer element in authn request
+    'USE_JWT': False, # Set this to True if you are running a Single Page Application (SPA) with Django Rest Framework (DRF), and are using JWT authentication to authorize client users
+    #'FRONTEND_URL': 'https://myfrontendclient.com', # Redirect URL for the client if you are using JWT auth with DRF. See explanation below
+}
 
 
 # Static files (CSS, JavaScript, Images)

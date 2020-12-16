@@ -5,6 +5,7 @@ from . import views
 app_name = 'dl_user'
 urlpatterns = [
     path('', views.IndexView.as_view(), name='home'),
+    path('saml/', views.SamlView.as_view(), name='saml'),
     path('manage/', views.UserRrAdminManager.as_view(), name='manage'),
     path('manage/<slug:user_id>/', views.AdminUserDetailView.as_view(), name='manage_user_view'),
     path('register/', views.RegisterView.as_view(), name='register'),

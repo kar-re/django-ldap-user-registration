@@ -23,6 +23,10 @@ from .exceptions import PasswordResetException
 class IndexView(generic.TemplateView):
     # Index View
     template_name = 'dl_user/home.html'
+    
+class SamlView(generic.TemplateView):
+    # Index View
+    template_name = 'dl_user/saml.html'
 
 
 class RegisterView(generic.FormView):

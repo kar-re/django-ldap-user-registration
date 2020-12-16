@@ -16,8 +16,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
+import django_saml2_auth.views
+import cas.views
+
 
 urlpatterns = [
+    # These are the SAML2 related URLs. You can change "^saml2_auth/" regex to
+    # any path you want, like "^sso_auth/", "^sso_login/", etc. (required)
+    path('saml2_auth/', include('django_saml2_auth.urls')),
+
+    # The following line will replace the default user login with SAML2 (optional)
+    # If you want to specific the after-login-redirect-URL, use parameter "?next=/the/path/you/want"
+    # with this view.
+    path('accounts/login/', django_saml2_auth.views.signin),
+    path('admin/login/', cas.views.login, name='login'),
+    path('admin/logout/', cas.views.logout, name='logout'),
+
     path('admin/', admin.site.urls),
     path('user/', include('dl_user.urls')),
 ]
