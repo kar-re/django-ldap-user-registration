@@ -26,6 +26,7 @@ class UserRegistrationRecord(models.Model):
     # user data
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     ldap_password = models.CharField(max_length=128, blank=True, null=True)
+    ldap_email = models.CharField(max_length=128, blank=True, null=True)
     gender = models.CharField(max_length=10, blank=True, null=True)
     title = models.CharField(max_length=30, blank=True, null=True)
     designation = models.CharField(max_length=200, blank=True, null=True)

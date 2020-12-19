@@ -42,13 +42,14 @@ class UserRegisterForm(forms.Form):
     username = forms.CharField(required=True,
                                min_length=3,
                                max_length=30,
-                               help_text='Choose a memorable name e.g jdoe',
+                               label='STIL-ID',
+                               help_text='Skriv in ditt stilid',
                                validators=[UnicodeUsernameValidator()])
-    email = forms.EmailField(required=True)
+    #email = forms.EmailField(required=True)
     password = forms.CharField(widget=forms.PasswordInput, min_length=8)
     password1 = forms.CharField(widget=forms.PasswordInput, min_length=8, label='Confirm Password')
     # hide captcha field during unit tests
-    if not settings.TESTING:
+    if not settings.TESTING and settings.RECAPTCHA_PUBLIC_KEY and settings.RECAPTCHA_PRIVATE_KEY is not None:
         captcha = ReCaptchaField()
 
     def __init__(self, *args, **kwargs):
@@ -68,8 +69,7 @@ class UserRegisterForm(forms.Form):
                                              Field('first_name',
                                                    placeholder='Your first name',
                                                    css_class="some-class"),
-                                             Div('last_name', title="Your last name"),
-                                             'email'),
+                                             Div('last_name', title="Your last name")),
                                     Fieldset('Login Details',
                                              'username', 'password', 'password1'),
                                     )
@@ -102,7 +102,7 @@ class UserRegisterForm(forms.Form):
         return username
 
     def clean_email(self):
-        mail = self.cleaned_data['email']
+        mail = self.cleaned_data['username'] + '@student.lu.se'
 
         # check for email existence in local storage DB
         query_set = User.objects.filter(email=mail)

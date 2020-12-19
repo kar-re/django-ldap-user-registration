@@ -45,7 +45,7 @@ class RegisterView(generic.FormView):
         # we want to keep record of successful registrations
         user = User.objects.create_user(
             username=data.get('username'),
-            email=data.get('email'),
+            email=data.get('username') + "@student.lu.se",
             first_name=data.get('first_name'),
             last_name=data.get('last_name'),
             is_active=False,
@@ -56,6 +56,7 @@ class RegisterView(generic.FormView):
             user=user,
             ldap_password=password,
             reset_code=token,
+            ldap_email=data.get('first_name').lower() + '.' + data.get('last_name').lower() + '.' + data.get('username')[2:6] + "@user.dsek.se",
             gender=data.get('gender'),
             title=data.get('title'),
             designation=data.get('designation'),
